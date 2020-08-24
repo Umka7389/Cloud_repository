@@ -6,7 +6,7 @@ public class FileReaderWriter {
         System.out.println("copy " + src.length() + " bytes");
         InputStream is = new FileInputStream(src);
         OutputStream os = new FileOutputStream(dst);
-        byte [] buffer = new byte[5]; // 8Kb
+        byte [] buffer = new byte[1024]; // 8Kb
         int count = 0;
         while ((count = is.read(buffer)) != -1) {
             os.write(buffer, 0, count);

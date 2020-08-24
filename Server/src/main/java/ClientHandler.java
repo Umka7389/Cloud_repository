@@ -1,6 +1,7 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -36,13 +37,16 @@ public class ClientHandler implements Runnable {
                 String message = is.readUTF();
                 System.out.println("message from" + name + ": " + message);
                 server.broadcastMessage(message);
-                if(message.equals("quit")){
+                String[] arr = message.split("±");
+                if(arr[0].equals("quit")){
                     server.kick(this);
                     os.close();
                     is.close();
                     socket.close();
                     System.out.println(name + " disconnected");
                     break;
+                } else if (arr[0].equals("/upload")){
+                    server.upload(arr[1]);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
