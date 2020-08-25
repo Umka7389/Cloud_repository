@@ -7,7 +7,6 @@ public class IOserver {
 
     private ConcurrentLinkedQueue<ClientHandler> queue;
     private boolean isRunning = true;
-    private final String serverStoragePath = "Server/ServerStorage";
 
 
 
@@ -48,19 +47,20 @@ public class IOserver {
         new IOserver();
     }
 
-    public void upload(String fileName) throws IOException {
-        File clFile = new File("Client/ClientStorage/" + fileName);
-        File srvFile = new File("Server/ServerStorage/" + fileName);
-        InputStream is = new FileInputStream(clFile);
-        OutputStream os = new FileOutputStream(srvFile);
+    public void transfer (String fileName, String fromPathname, String toPathname ) throws IOException {
+        File from = new File(fromPathname + "/" + fileName);
+        File to = new File(toPathname + "/"  + fileName);
+        InputStream is = new FileInputStream(from);
+        OutputStream os = new FileOutputStream(to);
         byte [] buffer = new byte[1024]; // 8Kb
         int count = 0;
 
-        if (!srvFile.exists()) srvFile.createNewFile();
+        if (!to.exists()) to.createNewFile();
         while ((count = is.read(buffer)) != -1) {
             os.write(buffer, 0, count);
         }
         os.close();
         is.close();
     }
+
 }

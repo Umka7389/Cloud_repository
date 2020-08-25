@@ -13,6 +13,8 @@ public class ClientHandler implements Runnable {
     private static int counter = 0;
     private final String name = "user#" + counter;
     private final Socket socket;
+    private final String clientStoragePath = "Client/ClientStorage";
+    private final String serverStoragePath = "Server/ServerStorage";
 
     public ClientHandler(Socket socket, IOserver iOserver) throws IOException {
         server = iOserver;
@@ -45,7 +47,9 @@ public class ClientHandler implements Runnable {
                     System.out.println(name + " disconnected");
                     break;
                 } else if (arr[0].equals("/upload")){
-                    server.upload(arr[1]);
+                    server.transfer(arr[1],clientStoragePath, serverStoragePath);
+                } else if (arr[0].equals("/download")){
+                    server.transfer(arr[1], serverStoragePath,clientStoragePath);
                 } else server.broadcastMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();

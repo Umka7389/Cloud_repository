@@ -2,11 +2,16 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
-      <AnchorPane prefHeight="461.0" prefWidth="331.0">
-            <Button fx:id="sendButton" layoutX="265.0" layoutY="422.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="25.0" prefWidth="56.0" text="SEND" />
-            <ListView fx:id="listview" layoutX="10.0" layoutY="7.0" prefHeight="416.0" prefWidth="312.0" onMouseClicked="#handleMouseClick"/>
-            <TextField fx:id="textField" layoutX="10.0" layoutY="422.0" prefHeight="25.0" prefWidth="255.0" promptText="Enter message" />
+      <AnchorPane prefHeight="461.0" prefWidth="320.0">
+            <Button fx:id="uploadButton" layoutX="207.0" layoutY="422.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="25.0" prefWidth="103.0" text="TRANSFER">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+            <ListView fx:id="clientFiles" layoutX="10.0" layoutY="18.0" onMouseClicked="#choseClientFiles" prefHeight="405.0" prefWidth="150.0" />
+            <TextField fx:id="textField" layoutX="9.0" layoutY="422.0" prefHeight="25.0" prefWidth="199.0" promptText="File to transfer" />
+      <ListView fx:id="serverFiles" layoutX="160.0" layoutY="18.0" onMouseClicked="#choseServerFiles" prefHeight="405.0" prefWidth="150.0" />
       </AnchorPane>
 </GridPane>
