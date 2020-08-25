@@ -36,7 +36,6 @@ public class ClientHandler implements Runnable {
             try {
                 String message = is.readUTF();
                 System.out.println("message from" + name + ": " + message);
-                server.broadcastMessage(message);
                 String[] arr = message.split("±");
                 if(arr[0].equals("quit")){
                     server.kick(this);
@@ -47,7 +46,7 @@ public class ClientHandler implements Runnable {
                     break;
                 } else if (arr[0].equals("/upload")){
                     server.upload(arr[1]);
-                }
+                } else server.broadcastMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
