@@ -8,13 +8,6 @@ public class IOserver {
     private ConcurrentLinkedQueue<ClientHandler> queue;
     private boolean isRunning = true;
 
-
-
-    public void stop(){
-        isRunning = false;
-    }
-
-
     public IOserver(){
         try {
             queue = new ConcurrentLinkedQueue<ClientHandler>();
@@ -31,20 +24,12 @@ public class IOserver {
         }
     }
 
-    public void broadcastMessage (String message) throws IOException {
-        for (ClientHandler client: queue) {
-            client.sendMessage(message);
-            
-        }
+    public void stop(){
+        isRunning = false;
     }
 
     public void kick(ClientHandler clientHandler) {
         queue.remove(clientHandler);
-
-    }
-
-    public static void main(String[] args) {
-        new IOserver();
     }
 
     public void transfer (String fileName, String fromPathname, String toPathname ) throws IOException {
@@ -52,7 +37,7 @@ public class IOserver {
         File to = new File(toPathname + "/"  + fileName);
         InputStream is = new FileInputStream(from);
         OutputStream os = new FileOutputStream(to);
-        byte [] buffer = new byte[1024]; // 8Kb
+        byte [] buffer = new byte[1024];
         int count = 0;
 
         if (!to.exists()) to.createNewFile();
@@ -61,6 +46,10 @@ public class IOserver {
         }
         os.close();
         is.close();
+    }
+
+    public static void main(String[] args) {
+        new IOserver();
     }
 
 }

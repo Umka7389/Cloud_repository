@@ -1,4 +1,3 @@
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -6,13 +5,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-import java.awt.event.MouseEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -27,17 +26,15 @@ public class Controller implements Initializable {
     private final String clientStoragePath = "Client/ClientStorage";
     private final String serverStoragePath = "Server/ServerStorage";
 
-
-
     public static void  stop(){
         try {
             os.writeUTF("quit");
             os.flush();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     public void sendMessage(ActionEvent actionEvent) {
         String message = textField.getText();
@@ -52,12 +49,12 @@ public class Controller implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         File clDir = new File(clientStoragePath);
-        for (File file : clDir.listFiles() ){
+        for (File file : Objects.requireNonNull(clDir.listFiles())){
             clientFiles.getItems().add(file.getName());
         }
 
         File srvDir = new File(serverStoragePath);
-        for (File file : srvDir.listFiles() ){
+        for (File file : Objects.requireNonNull(srvDir.listFiles())){
             serverFiles.getItems().add(file.getName());
         }
 
@@ -66,20 +63,6 @@ public class Controller implements Initializable {
             Socket socket = new Socket("localhost", 8189);
             is = new DataInputStream(socket.getInputStream());
             os = new DataOutputStream(socket.getOutputStream());
-
-            new Thread(() -> {
-                while (true) {
-                    try {
-                        String message = is.readUTF();
-                        if (message.equals("quit")) {
-                            break;
-                        }
-                        Platform.runLater(() -> clientFiles.getItems().add(message));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
         } catch (IOException e) {
             e.printStackTrace();
         }

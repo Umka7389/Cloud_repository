@@ -38,19 +38,21 @@ public class ClientHandler implements Runnable {
             try {
                 String message = is.readUTF();
                 System.out.println("message from" + name + ": " + message);
-                String[] arr = message.split("±");
-                if(arr[0].equals("quit")){
+                if (message.equals("quit")){
                     server.kick(this);
                     os.close();
                     is.close();
                     socket.close();
                     System.out.println(name + " disconnected");
                     break;
-                } else if (arr[0].equals("/upload")){
-                    server.transfer(arr[1],clientStoragePath, serverStoragePath);
-                } else if (arr[0].equals("/download")){
-                    server.transfer(arr[1], serverStoragePath,clientStoragePath);
-                } else server.broadcastMessage(message);
+                } else {
+                    String[] arr = message.split("±");
+                    if (arr[0].equals("/upload")){
+                        server.transfer(arr[1],clientStoragePath, serverStoragePath);
+                    } else if (arr[0].equals("/download")){
+                        server.transfer(arr[1], serverStoragePath,clientStoragePath);
+                    } else sendMessage("Unknown command");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
