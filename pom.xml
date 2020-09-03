@@ -12,6 +12,8 @@
         <module>Server</module>
         <module>Client</module>
         <module>Common</module>
+        <module>Nio-server</module>
+        <module>Nio-client</module>
     </modules>
 
 
