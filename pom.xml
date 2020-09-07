@@ -15,6 +15,7 @@
         <module>Nio-server</module>
         <module>Nio-client</module>
         <module>Netty</module>
+        <module>Serialization</module>
     </modules>
 
 
